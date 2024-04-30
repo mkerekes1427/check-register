@@ -23,19 +23,17 @@ export default function Registry() {
           }}
         >
         <Link href="https://espn.com" sx={{textDecoration: "none"}}>
-            <Typography variant="h2" sx={{color : "#00a88c"}}>
+            <Typography variant='h2' sx={{color : "#00a88c", fontSize: "80px", mb: 8}}>
                 Check Registry
             </Typography>
           </Link>
           <Box component="form" noValidate sx={{ mt: 1 }}>
             <TextField
               margin="normal"
-              required
               fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
+              id="checkNo"
+              label="Check Number (optional)"
+              name="checkNo"
               autoFocus
             />
             <TextField
@@ -52,9 +50,9 @@ export default function Registry() {
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2 }}
+              sx={{ mt: 3, mb: 2, fontSize: "24px" }}
             >
-              Sign In
+              Add Transaction
             </Button>
             <Grid container>
               <Grid item>
