@@ -25,7 +25,7 @@ import { registryForm } from '../types/types';
 
 export default function Registry() {
 
-  console.log(`Here we go ${process.env.NEXT_PUBLIC_SHEET_ID}`);
+  console.log(`Here we go ${process.env.SHEET_ID}`);
 
   const [registry, setRegistry] = useState<registryForm>({
                           checkNo: "",
