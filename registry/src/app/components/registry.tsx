@@ -19,19 +19,8 @@ import addTransaction from '../utils/addTransaction';
 
 import { useState } from 'react';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { Dayjs } from 'dayjs';
+import { registryForm } from '../types/types';
 
-
-type registryForm = {
-  checkNo: string,
-  transaction: string,
-  amount: string,
-  date: Dayjs | null,
-  description: string,
-  category: string,
-  submitted: boolean,
-  error: boolean
-}
 
 export default function Registry() {
 
@@ -52,18 +41,21 @@ export default function Registry() {
       [e.target.name] : e.target.value});
   }
 
-  let handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  let handleSubmit = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    
     e.preventDefault();
-    console.log("You submitted");
+  
+    const rowAdded = await addTransaction(registry);
 
-    registry.date === null || registry.description === "" || registry.amount === ""
-      ? setRegistry({...registry, error:true, submitted:true}) : setRegistry({...registry, error:false, submitted:true});
+    if (!rowAdded || registry.date === null || registry.description === "" || registry.amount === "")
+      setRegistry({...registry, error:true, submitted:true});
+    else {
+      setRegistry({...registry, error:false, submitted:true});
+    }
 
     setTimeout(() => 
       setRegistry({...registry, error:false, submitted:false}), 
     3500)
-
-    addTransaction();
 
   }
 
@@ -79,9 +71,6 @@ export default function Registry() {
       return <Alert variant="outlined" severity="success" sx={{textAlign: "center", fontSize: "28px"}}>Transaction Uploaded Successfully.</Alert>
 
   }
-
-
-  console.log(registry);
  
   return (
       <Container component="main" maxWidth="xl">
