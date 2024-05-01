@@ -25,8 +25,6 @@ import { registryForm } from '../types/types';
 
 export default function Registry() {
 
-  console.log(`Here we go ${process.env.NEXT_PUBLIC_SHEET_ID}`);
-
   const [registry, setRegistry] = useState<registryForm>({
                           checkNo: "",
                           transaction: "Debit",
@@ -47,8 +45,6 @@ export default function Registry() {
   let handleSubmit = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     
     e.preventDefault();
-  
-    console.log(registry);
 
     if (registry.date === undefined || registry.description === "" || registry.amount === "") {
       setRegistry({...registry, error:true, submitted:true});
@@ -73,7 +69,7 @@ export default function Registry() {
       return;
 
     else if (registry.error && registry.submitted)
-      return <Alert variant="outlined" severity="error" sx={{textAlign: "center", fontSize: "28px"}}>Fill out all the required fields.</Alert>;
+      return <Alert variant="outlined" severity="error" sx={{textAlign: "center", fontSize: "28px"}}>Error. Make sure to fill out all the required fields.</Alert>;
 
     else
       return <Alert variant="outlined" severity="success" sx={{textAlign: "center", fontSize: "28px"}}>Transaction Uploaded Successfully.</Alert>
