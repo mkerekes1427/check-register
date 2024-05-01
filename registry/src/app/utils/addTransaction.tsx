@@ -17,8 +17,8 @@ export default async function addTransaction(formValues: registryForm) {
         range: "Sheet1"
       });
 
+      console.log("Pizza");
       console.log(`Sheet id is ${process.env.SHEET_ID}`);
-      console.log(`credentials are ${process.env.GOOGLE_APPLICATION_CREDENTIALS}`);
 
       const rowNum = (getRes.data.values?.length as number) + 1;
 
