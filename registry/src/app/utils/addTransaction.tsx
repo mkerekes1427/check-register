@@ -17,18 +17,16 @@ export default async function addTransaction(formValues: registryForm) {
         range: "Sheet1"
       });
 
-      console.log(formValues);
-
       const rowNum = (getRes.data.values?.length as number) + 1;
 
-      const checkNo = 100;
-      const transactionType: string = "Debit";
-      const amount: number = 970;
-      const date = "2024-05-01";
-      const description = "Walmart";
-      const category = "Groceries";
+      const checkNo = formValues.checkNo;
+      const transactionType = formValues.transaction;
+      const amount: number = Math.floor(parseFloat(formValues.amount) * 100) / 100;
+      const date = formValues.date;
+      const description = formValues.description;
+      const category = formValues.category;
 
-      const prevTotal = parseInt(getRes.data.values?.[rowNum - 2][6], 10) as number;
+      const prevTotal = parseFloat(getRes.data.values?.[rowNum - 2][6]) as number;
 
       const total = transactionType === "Debit" ? prevTotal - amount : prevTotal + amount;
 

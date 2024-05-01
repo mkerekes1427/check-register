@@ -14,6 +14,7 @@ import FormLabel from '@mui/material/FormLabel';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import dayjs from 'dayjs';
 import Alert from '@mui/material/Alert';
 import addTransaction from '../utils/addTransaction';
 
@@ -28,7 +29,7 @@ export default function Registry() {
                           checkNo: "",
                           transaction: "Debit",
                           amount: "0",
-                          date: null,
+                          date: undefined,
                           description: "",
                           category: "",
                           submitted: false,
@@ -45,12 +46,15 @@ export default function Registry() {
     
     e.preventDefault();
   
-    const rowAdded = await addTransaction(registry);
 
-    if (!rowAdded || registry.date === null || registry.description === "" || registry.amount === "")
+    if (registry.date === undefined || registry.description === "" || registry.amount === "")
       setRegistry({...registry, error:true, submitted:true});
+
     else {
-      setRegistry({...registry, error:false, submitted:true});
+      const rowAdded = await addTransaction(registry);
+
+      rowAdded ? setRegistry({...registry, error:false, submitted:true})
+      : setRegistry({...registry, error:true, submitted:true});
     }
 
     setTimeout(() => 
@@ -125,7 +129,7 @@ export default function Registry() {
             />
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DemoContainer components={['DatePicker']} sx={{mt: 2, mb: 2}}>
-                <DatePicker label="Date" name="date" onChange={(val) => setRegistry({...registry, date: val})}/>
+                <DatePicker label="Date" name="date" onChange={(val) => setRegistry({...registry, date: val?.toISOString().substring(0, 10)})}/>
               </DemoContainer>
             </LocalizationProvider>
             <TextField

@@ -4,7 +4,7 @@ export type registryForm = {
     checkNo: string,
     transaction: string,
     amount: string,
-    date: Dayjs | null,
+    date: string | undefined,
     description: string,
     category: string,
     submitted: boolean,
