@@ -72,7 +72,7 @@ export default function Registry() {
       return <Alert variant="outlined" severity="error" sx={{textAlign: "center", fontSize: "28px"}}>Error. Make sure to fill out all the required fields.</Alert>;
 
     else
-      return <Alert variant="outlined" severity="success" sx={{textAlign: "center", fontSize: "28px"}}>Transaction Uploaded Successfully.</Alert>
+      return <Alert variant="outlined" severity="success" sx={{textAlign: "center", fontSize: "28px"}}>Transaction Successful.</Alert>
 
   }
  
