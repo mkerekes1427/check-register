@@ -25,6 +25,8 @@ import { registryForm } from '../types/types';
 
 export default function Registry() {
 
+  console.log(`Here we go ${process.env.SHEET_ID}`);
+
   const [registry, setRegistry] = useState<registryForm>({
                           checkNo: "",
                           transaction: "Debit",
