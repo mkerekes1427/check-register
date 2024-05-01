@@ -60,7 +60,7 @@ export default function Registry() {
     }
 
     setTimeout(() => 
-      setRegistry({...registry, error:false, submitted:false}), 
+      setRegistry((prev) => ({...prev, error:false, submitted:false})), 
     3500);
 
   }
