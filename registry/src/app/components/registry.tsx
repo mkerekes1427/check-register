@@ -29,7 +29,7 @@ export default function Registry() {
                           checkNo: "",
                           transaction: "Debit",
                           amount: "0",
-                          date: undefined,
+                          date: dayjs().toISOString().substring(0, 10),
                           description: "",
                           category: "",
                           submitted: false,
@@ -46,9 +46,11 @@ export default function Registry() {
     
     e.preventDefault();
   
+    console.log(registry);
 
-    if (registry.date === undefined || registry.description === "" || registry.amount === "")
+    if (registry.date === undefined || registry.description === "" || registry.amount === "") {
       setRegistry({...registry, error:true, submitted:true});
+    }
 
     else {
       const rowAdded = await addTransaction(registry);
@@ -59,7 +61,7 @@ export default function Registry() {
 
     setTimeout(() => 
       setRegistry({...registry, error:false, submitted:false}), 
-    3500)
+    3500);
 
   }
 
@@ -88,7 +90,7 @@ export default function Registry() {
             alignItems: 'center'
           }}
         >
-        <Link href="https://espn.com" sx={{textDecoration: "none", textAlign: "center"}}>
+        <Link href="https://docs.google.com/spreadsheets/d/1CLE1a5Eox4Pou9GoeaTRq2h3P35gMS5S4G_KPGo5LFU/edit#gid=0" target="_blank" sx={{textDecoration: "none", textAlign: "center"}}>
             <Typography variant='h2' sx={{color : "#00a88c", fontSize: "80px", mb: 8}}>
                 Check Registry
             </Typography>
@@ -121,15 +123,12 @@ export default function Registry() {
               </RadioGroup>
             <Typography mt={3} sx={{color: "#00695c", fontSize: "18px"}}>Amount*</Typography>
             <TextField required fullWidth inputProps=
-            {{ type: 'number',
-              min: 0
-
-            }} value={registry.amount} onChange={handleChange} 
+            {{ type: 'number', min: 0, step: .01}} value={registry.amount} onChange={handleChange} 
             name="amount" color="success"
             />
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DemoContainer components={['DatePicker']} sx={{mt: 2, mb: 2}}>
-                <DatePicker label="Date" name="date" onChange={(val) => setRegistry({...registry, date: val?.toISOString().substring(0, 10)})}/>
+                <DatePicker value={dayjs(registry.date)} label="Date" name="date" onChange={(val) => setRegistry({...registry, date: val?.toISOString().substring(0, 10)})}/>
               </DemoContainer>
             </LocalizationProvider>
             <TextField
