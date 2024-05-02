@@ -36,6 +36,8 @@ export default function Registry() {
                           error: false
                         });
 
+  const [alertMsg, setAlertMsg] = useState<JSX.Element | null>(null);
+
 
   let handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setRegistry({...registry, 
@@ -47,39 +49,32 @@ export default function Registry() {
     e.preventDefault();
 
     if (registry.date === undefined || registry.description === "" || registry.amount === "") {
-      setRegistry({...registry, error:true, submitted:true});
+      setRegistry({...registry, error:true, submitted:true})
+      setAlertMsg(<Alert variant="outlined" severity="error" sx={{textAlign: "center", fontSize: "28px"}}>Fill out all required fields.</Alert>);
     }
 
     else {
       const rowAdded = await addTransaction(registry);
 
-      rowAdded ? setRegistry({...registry, error:false, submitted:true})
-      : setRegistry({...registry, error:true, submitted:true});
+      rowAdded ? 
+      (setRegistry({...registry, error:false, submitted:true}), 
+      setAlertMsg(<Alert variant="outlined" severity="success" sx={{textAlign: "center", fontSize: "28px"}}>Transaction Successful.</Alert>))
+      : 
+      (setRegistry({...registry, error:true, submitted:true}),
+      setAlertMsg(<Alert variant="outlined" severity="error" sx={{textAlign: "center", fontSize: "28px"}}>Error adding to Google Sheets.</Alert>));
     }
 
-    setTimeout(() => 
+    setTimeout(() => {
       setRegistry((prev) => ({...prev, error:false, submitted:false})), 
-    3500);
-
-  }
-
-  let displayAlert = () => {
-
-    if (!registry.submitted)
-      return;
-
-    else if (registry.error && registry.submitted)
-      return <Alert variant="outlined" severity="error" sx={{textAlign: "center", fontSize: "28px"}}>Error. Make sure to fill out all the required fields.</Alert>;
-
-    else
-      return <Alert variant="outlined" severity="success" sx={{textAlign: "center", fontSize: "28px"}}>Transaction Successful.</Alert>
+      setAlertMsg(null);
+    }, 3500);
 
   }
  
   return (
       <Container component="main" maxWidth="xl">
         <CssBaseline />
-        {displayAlert()}
+        {alertMsg ? alertMsg : null}
         <Box
           sx={{
             marginTop: 10,
